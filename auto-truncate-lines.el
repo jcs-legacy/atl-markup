@@ -6,8 +6,8 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; Description: Automatically truncate lines for markup languages.
 ;; Keyword: automatic truncate visual lines
-;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.3"))
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "24.3") (auto-rename-tag "0.2.9"))
 ;; URL: https://github.com/jcs-elpa/auto-truncate-lines
 
 ;; This file is NOT part of GNU Emacs.
@@ -32,18 +32,62 @@
 
 ;;; Code:
 
+(require 'auto-rename-tag)
+
 (defgroup auto-truncate-lines nil
   "Automatically truncate lines for markup languages."
   :prefix "auto-truncate-lines-"
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/auto-truncate-lines"))
 
+;;; Util
+
+(defun auto-truncate-lines--get-current-char-string ()
+  "Get the current character as the 'string'."
+  (if (char-before) (string (char-before)) ""))
+
+(defun auto-truncate-lines--current-char-string-match-p (c)
+  "Check the current character string match to C."
+  (if (= (point) (point-max))
+      ;; No character at the beginning of the buffer, just return `nil'.
+      nil
+    (string-match-p c (auto-truncate-lines--get-current-char-string))))
+
+(defun auto-truncate-lines--inside-comment-block-p ()
+  "Check if current cursor point inside the comment block."
+  (nth 4 (syntax-ppss)))
+
+(defun auto-truncate-lines--enable-truncate-lines ()
+  "Enable truncate lines."
+  (unless truncate-lines (toggle-truncate-lines)))
+
+(defun auto-truncate-lines--disable-truncate-lines ()
+  "Disable truncate lines."
+  (when truncate-lines (toggle-truncate-lines)))
+
+;;; Core
+
+(defun auto-truncate-lines--web-truncate-lines-by-face ()
+  "Enable/Disable the truncate lines mode depends on the face cursor currently on."
+  (when (and (not (auto-truncate-lines--current-char-string-match-p "[ \t\r\n]"))
+             (not (auto-truncate-lines--inside-comment-block-p))
+             (not (eolp)))
+    (let ((message-log-max nil) (inhibit-message t))
+      (if (auto-rename-tag--inside-tag-p)
+          (auto-truncate-lines--enable-truncate-lines)
+        (auto-truncate-lines--disable-truncate-lines)))))
+
+(defun auto-truncate-lines--post-command-hook ()
+  "Post command hook to do auto truncate lines in current buffer."
+  (auto-truncate-lines--web-truncate-lines-by-face))
 
 (defun auto-truncate-lines--enable ()
-  "Enable 'auto-truncate-lines-mode.'")
+  "Enable 'auto-truncate-lines-mode.'"
+  (add-hook 'post-command-hook 'auto-truncate-lines--post-command-hook nil t))
 
 (defun auto-truncate-lines--disable ()
-  "Disable 'auto-truncate-lines-mode.'")
+  "Disable 'auto-truncate-lines-mode.'"
+  (remove-hook 'post-command-hook 'auto-truncate-lines--post-command-hook t))
 
 ;;;###autoload
 (define-minor-mode auto-truncate-lines-mode
