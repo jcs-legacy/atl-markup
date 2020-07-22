@@ -4,6 +4,10 @@
 # auto-truncate-lines
 > Automatically truncate lines by position.
 
+<p align="center">
+  <img src="./etc/auto-tl.gif" width="600" height="349"/>
+</p>
+
 ## Contribution
 
 If you would like to contribute to this project, you may either 
