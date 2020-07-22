@@ -8,6 +8,24 @@
   <img src="./etc/auto-tl.gif" width="600" height="349"/>
 </p>
 
+## Usage
+
+You can enable this package by this following command.
+
+```
+M-x auto-truncate-lines-mode
+```
+
+I will prefer customize it with few mode hooks. For example, 
+
+```el
+(add-hook 'web-mode-hook (lambda ()
+                           (auto-truncate-lines-mode 1)))
+```
+
+I will also recommend to apply this mode to all markup languages like `nxml-mode`,
+`xml-mode`, `html-mode`, etc.
+
 ## Contribution
 
 If you would like to contribute to this project, you may either 
