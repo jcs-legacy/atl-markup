@@ -2,7 +2,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # auto-truncate-lines
-> Automatically truncate lines by position.
+> Automatically truncate lines for markup languages.
 
 <p align="center">
   <img src="./etc/auto-tl.gif" width="600" height="349"/>
