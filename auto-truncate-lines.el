@@ -1,14 +1,14 @@
-;;; auto-truncate-lines.el ---  Automatically truncate lines by position  -*- lexical-binding: t; -*-
+;;; auto-truncate-lines.el ---  Automatically truncate lines for markup languages  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  Shen, Jen-Chieh
 ;; Created date 2020-07-22 17:11:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Automatically truncate lines by position.
+;; Description: Automatically truncate lines for markup languages.
 ;; Keyword: automatic truncate visual lines
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: https://github.com/jcs090218/auto-truncate-lines
+;; URL: https://github.com/jcs-elpa/auto-truncate-lines
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -27,7 +27,7 @@
 
 ;;; Commentary:
 ;;
-;; Automatically truncate lines by position.
+;; Automatically truncate lines for markup languages.
 ;;
 
 ;;; Code:
