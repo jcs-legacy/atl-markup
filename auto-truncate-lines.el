@@ -32,7 +32,25 @@
 
 ;;; Code:
 
+(defgroup auto-truncate-lines nil
+  "Automatically truncate lines for markup languages."
+  :prefix "auto-truncate-lines-"
+  :group 'tool
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/auto-truncate-lines"))
 
+
+(defun auto-truncate-lines--enable ()
+  "Enable 'auto-truncate-lines-mode.'")
+
+(defun auto-truncate-lines--disable ()
+  "Disable 'auto-truncate-lines-mode.'")
+
+;;;###autoload
+(define-minor-mode auto-truncate-lines-mode
+  "Minor mode 'auto-truncate-lines-mode'."
+  :lighter " ATL"
+  :group auto-truncate-lines
+  (if auto-truncate-lines-mode (auto-truncate-lines--enable) (auto-truncate-lines--disable)))
 
 (provide 'auto-truncate-lines)
 ;;; auto-truncate-lines.el ends here
