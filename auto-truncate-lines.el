@@ -82,11 +82,11 @@
   (auto-truncate-lines--web-truncate-lines-by-face))
 
 (defun auto-truncate-lines--enable ()
-  "Enable 'auto-truncate-lines-mode.'"
+  "Enable 'auto-truncate-lines-mode'."
   (add-hook 'post-command-hook 'auto-truncate-lines--post-command-hook nil t))
 
 (defun auto-truncate-lines--disable ()
-  "Disable 'auto-truncate-lines-mode.'"
+  "Disable 'auto-truncate-lines-mode'."
   (remove-hook 'post-command-hook 'auto-truncate-lines--post-command-hook t))
 
 ;;;###autoload
