@@ -40,6 +40,11 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/auto-truncate-lines"))
 
+(defcustom auto-truncate-lines-ignore-regex "[ \t\r\n]"
+  "Regular expression string that will ignore auto truncate lines' action."
+  :type 'string
+  :group 'auto-truncate-lines)
+
 ;;; Util
 
 (defun auto-truncate-lines--get-current-char-string ()
@@ -48,10 +53,7 @@
 
 (defun auto-truncate-lines--current-char-string-match-p (c)
   "Check the current character string match to C."
-  (if (= (point) (point-max))
-      ;; No character at the beginning of the buffer, just return `nil'.
-      nil
-    (string-match-p c (auto-truncate-lines--get-current-char-string))))
+  (string-match-p c (auto-truncate-lines--get-current-char-string)))
 
 (defun auto-truncate-lines--inside-comment-block-p ()
   "Check if current cursor point inside the comment block."
@@ -69,7 +71,9 @@
 
 (defun auto-truncate-lines--web-truncate-lines-by-face ()
   "Enable/Disable the truncate lines mode depends on the face cursor currently on."
-  (when (and (not (auto-truncate-lines--current-char-string-match-p "[ \t\r\n]"))
+  (when (and (not (= (point) (point-min))) (not (= (point) (point-max)))
+             (not (auto-truncate-lines--current-char-string-match-p
+                   auto-truncate-lines-ignore-regex))
              (not (auto-truncate-lines--inside-comment-block-p))
              (not (eolp)))
     (let ((message-log-max nil) (inhibit-message t))
