@@ -2,7 +2,7 @@
 /.git
 /recipes
 /test
-auto-truncate-lines-pkg.el
+atl-markup-pkg.el
 
 # ignore generated files.
 *.elc
