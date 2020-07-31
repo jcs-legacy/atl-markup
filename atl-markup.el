@@ -6,7 +6,7 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; Description: Automatically truncate lines for markup languages.
 ;; Keyword: automatic truncate visual lines
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Package-Requires: ((emacs "24.3") (auto-rename-tag "0.2.9"))
 ;; URL: https://github.com/jcs-elpa/atl-markup
 
