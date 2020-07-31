@@ -1,4 +1,4 @@
-;;; auto-truncate-lines.el ---  Automatically truncate lines for markup languages  -*- lexical-binding: t; -*-
+;;; atl-markup.el ---  Automatically truncate lines for markup languages  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  Shen, Jen-Chieh
 ;; Created date 2020-07-22 17:11:15
@@ -8,7 +8,7 @@
 ;; Keyword: automatic truncate visual lines
 ;; Version: 0.1.1
 ;; Package-Requires: ((emacs "24.3") (auto-rename-tag "0.2.9"))
-;; URL: https://github.com/jcs-elpa/auto-truncate-lines
+;; URL: https://github.com/jcs-elpa/atl-markup
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -34,71 +34,71 @@
 
 (require 'auto-rename-tag)
 
-(defgroup auto-truncate-lines nil
+(defgroup atl-markup nil
   "Automatically truncate lines for markup languages."
-  :prefix "auto-truncate-lines-"
+  :prefix "atl-markup-"
   :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/auto-truncate-lines"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/atl-markup"))
 
-(defcustom auto-truncate-lines-ignore-regex "[ \t\r\n]"
+(defcustom atl-markup-ignore-regex "[ \t\r\n]"
   "Regular expression string that will ignore auto truncate lines' action."
   :type 'string
-  :group 'auto-truncate-lines)
+  :group 'atl-markup)
 
 ;;; Util
 
-(defun auto-truncate-lines--get-current-char-string ()
+(defun atl-markup--get-current-char-string ()
   "Get the current character as the 'string'."
   (if (char-before) (string (char-before)) ""))
 
-(defun auto-truncate-lines--current-char-string-match-p (c)
+(defun atl-markup--current-char-string-match-p (c)
   "Check the current character string match to C."
-  (string-match-p c (auto-truncate-lines--get-current-char-string)))
+  (string-match-p c (atl-markup--get-current-char-string)))
 
-(defun auto-truncate-lines--inside-comment-block-p ()
+(defun atl-markup--inside-comment-block-p ()
   "Check if current cursor point inside the comment block."
   (nth 4 (syntax-ppss)))
 
-(defun auto-truncate-lines--enable-truncate-lines ()
+(defun atl-markup--enable-truncate-lines ()
   "Enable truncate lines."
   (unless truncate-lines (toggle-truncate-lines)))
 
-(defun auto-truncate-lines--disable-truncate-lines ()
+(defun atl-markup--disable-truncate-lines ()
   "Disable truncate lines."
   (when truncate-lines (toggle-truncate-lines)))
 
 ;;; Core
 
-(defun auto-truncate-lines--web-truncate-lines-by-face ()
+(defun atl-markup--web-truncate-lines-by-face ()
   "Enable/Disable the truncate lines mode depends on the face cursor currently on."
   (when (and (not (= (point) (point-min))) (not (= (point) (point-max)))
-             (not (auto-truncate-lines--current-char-string-match-p
-                   auto-truncate-lines-ignore-regex))
-             (not (auto-truncate-lines--inside-comment-block-p))
+             (not (atl-markup--current-char-string-match-p
+                   atl-markup-ignore-regex))
+             (not (atl-markup--inside-comment-block-p))
              (not (eolp)))
     (let ((message-log-max nil) (inhibit-message t))
       (if (auto-rename-tag--inside-tag-p)
-          (auto-truncate-lines--enable-truncate-lines)
-        (auto-truncate-lines--disable-truncate-lines)))))
+          (atl-markup--enable-truncate-lines)
+        (atl-markup--disable-truncate-lines)))))
 
-(defun auto-truncate-lines--post-command-hook ()
+(defun atl-markup--post-command-hook ()
   "Post command hook to do auto truncate lines in current buffer."
-  (auto-truncate-lines--web-truncate-lines-by-face))
+  (atl-markup--web-truncate-lines-by-face))
 
-(defun auto-truncate-lines--enable ()
-  "Enable 'auto-truncate-lines-mode'."
-  (add-hook 'post-command-hook 'auto-truncate-lines--post-command-hook nil t))
+(defun atl-markup--enable ()
+  "Enable 'atl-markup-mode'."
+  (add-hook 'post-command-hook 'atl-markup--post-command-hook nil t))
 
-(defun auto-truncate-lines--disable ()
-  "Disable 'auto-truncate-lines-mode'."
-  (remove-hook 'post-command-hook 'auto-truncate-lines--post-command-hook t))
+(defun atl-markup--disable ()
+  "Disable 'atl-markup-mode'."
+  (remove-hook 'post-command-hook 'atl-markup--post-command-hook t))
 
 ;;;###autoload
-(define-minor-mode auto-truncate-lines-mode
-  "Minor mode 'auto-truncate-lines-mode'."
+(define-minor-mode atl-markup-mode
+  "Minor mode 'atl-markup-mode'."
   :lighter " ATL"
-  :group auto-truncate-lines
-  (if auto-truncate-lines-mode (auto-truncate-lines--enable) (auto-truncate-lines--disable)))
+  :group atl-markup
+  (if atl-markup-mode (atl-markup--enable) (atl-markup--disable)))
 
-(provide 'auto-truncate-lines)
-;;; auto-truncate-lines.el ends here
+(provide 'atl-markup)
+;;; atl-markup.el ends here

@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.com/jcs-elpa/auto-truncate-lines.svg?branch=master)](https://travis-ci.com/jcs-elpa/auto-truncate-lines)
+[![Build Status](https://travis-ci.com/jcs-elpa/atl-markup.svg?branch=master)](https://travis-ci.com/jcs-elpa/atl-markup)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# auto-truncate-lines
+# atl-markup
 > Automatically truncate lines for markup languages.
 
 <p align="center">
@@ -13,14 +13,13 @@
 You can enable this package by this following command.
 
 ```
-M-x auto-truncate-lines-mode
+M-x atl-markup-mode
 ```
 
 I will prefer customize it with few mode hooks. For example, 
 
 ```el
-(add-hook 'web-mode-hook (lambda ()
-                           (auto-truncate-lines-mode 1)))
+(add-hook 'web-mode-hook (lambda () (atl-markup-mode 1)))
 ```
 
 I will also recommend to apply this mode to all markup languages like `nxml-mode`,
