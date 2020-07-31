@@ -96,7 +96,7 @@
 ;;;###autoload
 (define-minor-mode atl-markup-mode
   "Minor mode 'atl-markup-mode'."
-  :lighter " ATL"
+  :lighter " ATL-MrkUp"
   :group atl-markup
   (if atl-markup-mode (atl-markup--enable) (atl-markup--disable)))
 
