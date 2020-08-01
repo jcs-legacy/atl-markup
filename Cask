@@ -1,3 +1,3 @@
 (source melpa)
 
-(package-file "auto-truncate-lines.el")
+(package-file "atl-markup.el")
