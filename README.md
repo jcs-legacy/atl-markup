@@ -5,7 +5,7 @@
 > Automatically truncate lines for markup languages.
 
 <p align="center">
-  <img src="./etc/auto-tl.gif" width="600" height="349"/>
+  <img src="./etc/demo.gif" width="600" height="349"/>
 </p>
 
 ## Usage
