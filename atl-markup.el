@@ -43,6 +43,14 @@
   :type 'string
   :group 'atl-markup)
 
+(defcustom atl-markup-delay 0.1
+  "Time delay to active auto truncate lines for markup languages."
+  :type 'float
+  :group 'atl-markup)
+
+(defvar atl-markup--timer nil
+  "Timer to active auto truncate lines.")
+
 ;;; Util
 
 (defun atl-markup--inside-comment-block-p ()
@@ -82,7 +90,10 @@
 
 (defun atl-markup--post-command-hook ()
   "Post command hook to do auto truncate lines in current buffer."
-  (atl-markup--web-truncate-lines-by-face))
+  (when (timerp atl-markup--timer)
+    (cancel-timer atl-markup--timer)
+    (setq atl-markup--timer nil))
+  (run-with-idle-timer atl-markup-delay nil 'atl-markup--web-truncate-lines-by-face))
 
 (defun atl-markup--enable ()
   "Enable 'atl-markup-mode'."
