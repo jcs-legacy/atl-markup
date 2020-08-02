@@ -7,7 +7,7 @@
 ;; Description: Automatically truncate lines for markup languages.
 ;; Keyword: automatic truncate visual lines
 ;; Version: 0.1.3
-;; Package-Requires: ((emacs "24.3") (auto-rename-tag "0.2.9"))
+;; Package-Requires: ((emacs "24.3"))
 ;; URL: https://github.com/jcs-elpa/atl-markup
 
 ;; This file is NOT part of GNU Emacs.
@@ -32,8 +32,6 @@
 
 ;;; Code:
 
-(require 'auto-rename-tag)
-
 (defgroup atl-markup nil
   "Automatically truncate lines for markup languages."
   :prefix "atl-markup-"
@@ -47,29 +45,38 @@
 
 ;;; Util
 
-(defun atl-markup--get-current-char-string ()
-  "Get the current character as the 'string'."
-  (if (char-before) (string (char-before)) ""))
-
-(defun atl-markup--current-char-string-match-p (c)
-  "Check the current character string match to C."
-  (string-match-p c (atl-markup--get-current-char-string)))
-
 (defun atl-markup--inside-comment-block-p ()
   "Check if current cursor point inside the comment block."
   (nth 4 (syntax-ppss)))
+
+(defun atl-markup--inside-tag-p ()
+  "Check if current point inside the tag."
+  (let ((backward-less (save-excursion (search-backward "<" nil t)))
+        (backward-greater (save-excursion (search-backward ">" nil t)))
+        (forward-less (save-excursion (search-forward "<" nil t)))
+        (forward-greater (save-excursion (search-forward ">" nil t))))
+    (unless backward-less (setq backward-less -1))
+    (unless backward-greater (setq backward-greater -1))
+    (unless forward-less (setq forward-less -1))
+    (unless forward-greater (setq forward-greater -1))
+    (and (not (= -1 backward-less))
+         (not (= -1 forward-greater))
+         (< backward-greater backward-less)
+         (or (< forward-greater forward-less)
+             (= -1 forward-less)))))
 
 ;;; Core
 
 (defun atl-markup--web-truncate-lines-by-face ()
   "Enable/Disable the truncate lines mode depends on the face cursor currently on."
   (when (and (not (= (point) (point-min))) (not (= (point) (point-max)))
-             (not (atl-markup--current-char-string-match-p
-                   atl-markup-ignore-regex))
+             (not (save-excursion
+                    (backward-char 1)
+                    (looking-at-p atl-markup-ignore-regex)))
              (not (atl-markup--inside-comment-block-p))
              (not (eolp)))
     (let ((message-log-max nil) (inhibit-message t))
-      (if (auto-rename-tag--inside-tag-p)
+      (if (atl-markup--inside-tag-p)
           (toggle-truncate-lines 1)
         (toggle-truncate-lines -1)))))
 
