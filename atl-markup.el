@@ -59,14 +59,6 @@
   "Check if current cursor point inside the comment block."
   (nth 4 (syntax-ppss)))
 
-(defun atl-markup--enable-truncate-lines ()
-  "Enable truncate lines."
-  (unless truncate-lines (toggle-truncate-lines)))
-
-(defun atl-markup--disable-truncate-lines ()
-  "Disable truncate lines."
-  (when truncate-lines (toggle-truncate-lines)))
-
 ;;; Core
 
 (defun atl-markup--web-truncate-lines-by-face ()
@@ -78,8 +70,8 @@
              (not (eolp)))
     (let ((message-log-max nil) (inhibit-message t))
       (if (auto-rename-tag--inside-tag-p)
-          (atl-markup--enable-truncate-lines)
-        (atl-markup--disable-truncate-lines)))))
+          (toggle-truncate-lines 1)
+        (toggle-truncate-lines -1)))))
 
 (defun atl-markup--post-command-hook ()
   "Post command hook to do auto truncate lines in current buffer."
