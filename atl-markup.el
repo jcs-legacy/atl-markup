@@ -57,6 +57,13 @@
   "Check if current cursor point inside the comment block."
   (nth 4 (syntax-ppss)))
 
+(defun atl-markup--mute-apply (fnc &rest args)
+  "Execute FNC with ARGS without message."
+  (let ((message-log-max nil))
+    (with-temp-message (or (current-message) nil)
+      (let ((inhibit-message t))
+        (apply fnc args)))))
+
 (defun atl-markup--inside-tag-p ()
   "Check if current point inside the tag."
   (let ((backward-less (save-excursion (search-backward "<" nil t)))
@@ -83,10 +90,10 @@
                     (looking-at-p atl-markup-ignore-regex)))
              (not (atl-markup--inside-comment-block-p))
              (not (eolp)))
-    (let ((message-log-max nil) (inhibit-message t))
-      (if (atl-markup--inside-tag-p)
-          (toggle-truncate-lines 1)
-        (toggle-truncate-lines -1)))))
+    (atl-markup--mute-apply
+     (lambda ()
+       (if (atl-markup--inside-tag-p)
+           (toggle-truncate-lines 1) (toggle-truncate-lines -1))))))
 
 (defun atl-markup--post-command-hook ()
   "Post command hook to do auto truncate lines in current buffer."
