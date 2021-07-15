@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.com/jcs-elpa/atl-markup.svg?branch=master)](https://travis-ci.com/jcs-elpa/atl-markup)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/atl-markup-badge.svg)](https://melpa.org/#/atl-markup)
 [![MELPA Stable](https://stable.melpa.org/packages/atl-markup-badge.svg)](https://stable.melpa.org/#/atl-markup)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![CI](https://github.com/jcs-elpa/atl-markup/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/atl-markup/actions/workflows/test.yml)
 
 # atl-markup
 > Automatically truncate lines for markup languages.
