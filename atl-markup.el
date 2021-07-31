@@ -38,7 +38,7 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/atl-markup"))
 
-(defcustom atl-markup-ignore-regex "[ \t\r\n>]"
+(defcustom atl-markup-ignore-regex "[ \t\r\n]"
   "Regular expression string that will ignore auto truncate lines' action."
   :type 'string
   :group 'atl-markup)
