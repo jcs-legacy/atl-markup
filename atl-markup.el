@@ -38,7 +38,7 @@
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/atl-markup"))
 
-(defcustom atl-markup-ignore-regex "[ \t\r\n]"
+(defcustom atl-markup-ignore-regex "[ \t\r\n>]"
   "Regular expression string that will ignore auto truncate lines' action."
   :type 'string
   :group 'atl-markup)
@@ -53,8 +53,8 @@
 
 ;;; Util
 
-(defun atl-markup--inside-comment-block-p ()
-  "Check if current cursor point inside the comment block."
+(defun atl-markup--comment-block-p ()
+  "Return non-nil if current cursor is on comment."
   (nth 4 (syntax-ppss)))
 
 (defun atl-markup--mute-apply (fnc &rest args)
@@ -84,11 +84,11 @@
 
 (defun atl-markup--web-truncate-lines-by-face ()
   "Enable/Disable the truncate lines mode depends on the face cursor currently on."
-  (when (and (not (= (point) (point-min))) (not (= (point) (point-max)))
+  (when (and (not (bobp)) (not (eobp))
              (not (save-excursion
                     (backward-char 1)
                     (looking-at-p atl-markup-ignore-regex)))
-             (not (atl-markup--inside-comment-block-p))
+             (not (atl-markup--comment-block-p))
              (not (eolp)))
     (atl-markup--mute-apply
      (lambda ()
