@@ -7,7 +7,7 @@
 ;; Description: Automatically truncate lines for markup languages.
 ;; Keyword: automatic truncate visual lines
 ;; Version: 0.1.5
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "24.3") (unfill "0.2"))
 ;; URL: https://github.com/jcs-elpa/atl-markup
 
 ;; This file is NOT part of GNU Emacs.
@@ -31,6 +31,9 @@
 ;;
 
 ;;; Code:
+
+(require 'sgml-mode)
+(require 'unfill)
 
 (defgroup atl-markup nil
   "Automatically truncate lines for markup languages."
@@ -82,6 +85,46 @@
 
 ;;; Core
 
+(defun atl-markup--bounds ()
+  "Reutn the content inside tag."
+  (save-excursion
+    (let (tag-open-name tag-close-name break start end)
+      (while (and (not (bobp)) (not break))
+        (setq tag-open-name (progn
+                              (sgml-skip-tag-backward 1)
+                              (save-excursion
+                                (forward-symbol 1)
+                                (setq start (point))
+                                (thing-at-point 'symbol)))
+              tag-close-name (save-excursion
+                               (sgml-skip-tag-forward 1)
+                               (forward-symbol -1)
+                               (setq end (point))
+                               (thing-at-point 'symbol)))
+        (when (string= tag-open-name tag-close-name)
+          (setq break t)))
+      (cons (save-excursion (goto-char start) (search-forward ">" nil t) (point))
+            (save-excursion (goto-char end) (search-backward "<" nil t) (point))))))
+
+(defun atl-markup--valid-paragraph (str)
+  "Return non-nil, if current content is a valid paragraph (STR)."
+  (and (not (string-match-p "/[ \t\r\n]*>"))
+       (not (string-match-p "<[a-zA-Z0-9]+>")))
+  )
+
+(defun atl-markup--truncate-line (arg)
+  "Truncate the current line with ARG."
+  (let* ((bounds (atl-markup--bounds))
+         (start (car bounds)) (end (cdr bounds))
+         (str (string-trim (buffer-substring start end)))
+         (valid (atl-markup--valid-paragraph str))
+         (fill-column (- (window-width) 5))
+         (inhibit-modification-hooks t)
+         buffer-undo-list)
+    (when valid
+      (if arg (unfill-region start end)
+        (fill-region start end)))))
+
 (defun atl-markup--web-truncate-lines-by-face ()
   "Enable/Disable the truncate lines mode depends on the face cursor currently on."
   (when (and (not (bobp)) (not (eobp))
@@ -92,8 +135,7 @@
              (not (eolp)))
     (atl-markup--mute-apply
      (lambda ()
-       (if (atl-markup--inside-tag-p)
-           (toggle-truncate-lines 1) (toggle-truncate-lines -1))))))
+       (atl-markup--truncate-line (atl-markup--inside-tag-p))))))
 
 (defun atl-markup--post-command-hook ()
   "Post command hook to do auto truncate lines in current buffer."
