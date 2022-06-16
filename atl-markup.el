@@ -4,11 +4,10 @@
 ;; Created date 2020-07-22 17:11:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Automatically truncate lines for markup languages.
-;; Keyword: automatic truncate visual lines
+;; URL: https://github.com/jcs-elpa/atl-markup
 ;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: https://github.com/jcs-elpa/atl-markup
+;; Keywords: automatic truncate visual lines
 
 ;; This file is NOT part of GNU Emacs.
 
