@@ -1,7 +1,7 @@
 (package "atl-markup" "0.1.5" "Automatically truncate lines for markup languages")
 
 (website-url "https://github.com/jcs-elpa/atl-markup")
-(keywords "automatic" "truncate" "visual" "lines")
+(keywords "convenience" "automatic" "truncate" "visual" "lines")
 
 (package-file "atl-markup.el")
 
