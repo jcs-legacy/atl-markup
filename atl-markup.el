@@ -7,7 +7,7 @@
 ;; URL: https://github.com/jcs-elpa/atl-markup
 ;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.3"))
-;; Keywords: automatic truncate visual lines
+;; Keywords: convenience automatic truncate visual lines
 
 ;; This file is NOT part of GNU Emacs.
 
