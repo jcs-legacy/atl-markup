@@ -11,7 +11,7 @@
   <img src="./etc/demo.gif" width="600" height="349"/>
 </p>
 
-## Usage
+## 🔧 Usage
 
 You can enable this package by this following command.
 
