@@ -1,6 +1,6 @@
 ;;; atl-markup.el ---  Automatically truncate lines for markup languages  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  Shen, Jen-Chieh
+;; Copyright (C) 2020-2024  Shen, Jen-Chieh
 ;; Created date 2020-07-22 17:11:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
