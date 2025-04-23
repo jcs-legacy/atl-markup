@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "atl-markup" "0.1.5" "Automatically truncate lines for markup languages")
 
 (website-url "https://github.com/jcs-elpa/atl-markup")
